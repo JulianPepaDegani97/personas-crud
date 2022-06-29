@@ -5,8 +5,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "personas")
-public class persona {
-    
+public class Persona {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +21,9 @@ public class persona {
     @Column(name = "id")
     private boolean empleado;
 
-    public persona() {}
+    public Persona() {}
 
-    public persona(String nombre, String apellido, long dni, boolean empleado) {
+    public Persona(String nombre, String apellido, long dni, boolean empleado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
