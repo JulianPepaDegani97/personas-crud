@@ -9,39 +9,39 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/api/personas")
+@RequestMapping("/api")
 public class PersonaController {
 
     @Autowired
     PersonaService personaService;
 
-    @GetMapping("/")
-    public List<Persona> traerPersonas() {
+    @PersistenceContext
+    EntityManager entityManager;
+
+    @GetMapping("/personas")
+    public List<PersonaDTO> traerPersonas() {
         return personaService.traerPersonas();
     }
 
-    @GetMapping("/{id}")
-    public Persona traerPersonaPorId(@PathVariable(value = "id") long id) {
+    @GetMapping("/personas/{id}")
+    public PersonaDTO traerPersonaPorId(@PathVariable(value = "id") Long id) {
         return personaService.traerPersonaPorId(id);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Object> crearPersona(PersonaDTO personaDTO) {
+    @PostMapping("/personas")
+    public ResponseEntity<Object> crearPersona(@RequestBody PersonaDTO personaDTO) {
 
-        if(personaDTO.getNombre().isEmpty() || personaDTO.getApellido().isEmpty() ||
-        personaDTO.getDni() <= 0) {
-            return  new ResponseEntity<>("Completar datos", HttpStatus.FORBIDDEN);
-        }
-
-        personaService.crearPersona(personaDTO);
+        personaService.guardarPersona(personaService.mapearPersona(personaDTO));
         return new ResponseEntity<>("Persona creada", HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Object> actualizarPersona(PersonaDTO personaDTO, long id) {
+    @PutMapping("/personas/{id}")
+    public ResponseEntity<Object> actualizarPersona(@RequestBody PersonaDTO personaDTO, @PathVariable(value = "id") Long id) {
 
         if(personaService.traerPersonaPorId(id) == null) {
             return new ResponseEntity<>("Persona no encontrada", HttpStatus.NOT_FOUND);
@@ -51,8 +51,8 @@ public class PersonaController {
         return new ResponseEntity<>("Persona actualizada", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> eliminarPersonaPorId(long id) {
+    @DeleteMapping("/personas/{id}")
+    public ResponseEntity<Object> eliminarPersonaPorId(@PathVariable(value = "id") Long id) {
 
         if(personaService.traerPersonaPorId(id) == null) {
             return new ResponseEntity<>("Persona no encontrada", HttpStatus.NOT_FOUND);

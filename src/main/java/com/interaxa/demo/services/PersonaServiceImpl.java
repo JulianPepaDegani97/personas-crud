@@ -7,25 +7,34 @@ import com.interaxa.demo.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PersonaServiceImpl implements PersonaService {
 
     @Autowired
     PersonaRepository personaRepository;
 
     @Override
-    public List<Persona> traerPersonas() {
-        return personaRepository.findAll();
+    public List<PersonaDTO> traerPersonas() {
+        return personaRepository.findAll().stream().map(PersonaDTO::new).collect(Collectors.toList());
     }
 
     @Override
-    public Persona traerPersonaPorId(long id) {
-        return personaRepository.findById(id).orElse(null);
+    public void guardarPersona(Persona persona) {
+        personaRepository.save(persona);
     }
 
-    Persona mapearPersona(PersonaDTO personaDTO) {
+    @Override
+    public PersonaDTO traerPersonaPorId(Long id) {
+        return new PersonaDTO(personaRepository.findById(id).orElse(null));
+    }
+
+    @Override
+    public Persona mapearPersona(PersonaDTO personaDTO) {
         Persona persona = new Persona();
         persona.setNombre(personaDTO.getNombre());
         persona.setApellido(personaDTO.getApellido());
@@ -34,7 +43,8 @@ public class PersonaServiceImpl implements PersonaService {
         return persona;
     }
 
-    Persona mapearPersona(PersonaDTO personaDTO, long id) {
+    @Override
+    public Persona mapearPersonaId(PersonaDTO personaDTO, Long id) {
         Persona persona = personaRepository.findById(id).orElse(null);
         persona.setNombre(personaDTO.getNombre());
         persona.setApellido(personaDTO.getApellido());
@@ -43,18 +53,19 @@ public class PersonaServiceImpl implements PersonaService {
         return persona;
     }
 
+
     @Override
     public void crearPersona(PersonaDTO personaDTO) {
         personaRepository.save(mapearPersona(personaDTO));
     }
 
     @Override
-    public void eliminarPersona(long id) {
+    public void eliminarPersona(Long id) {
         personaRepository.deleteById(id);
     }
 
     @Override
-    public void actualizarPersona(PersonaDTO personaDTO, long id) {
-          personaRepository.save(mapearPersona(personaDTO, id));
+    public void actualizarPersona(PersonaDTO personaDTO, Long id) {
+          personaRepository.save(mapearPersonaId(personaDTO, id));
     }
 }

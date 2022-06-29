@@ -7,15 +7,21 @@ import java.util.List;
 
 public interface PersonaService {
 
-    List<Persona> traerPersonas();
+    List<PersonaDTO> traerPersonas();
 
-    Persona traerPersonaPorId(long id);
+    void guardarPersona(Persona persona);
+
+    PersonaDTO traerPersonaPorId(Long id);
+
+    Persona mapearPersona(PersonaDTO personaDTO);
+
+    Persona mapearPersonaId(PersonaDTO personaDTO, Long id);
 
     void crearPersona(PersonaDTO personaDTO);
 
-    void eliminarPersona(long id);
+    void eliminarPersona(Long id);
 
-    void actualizarPersona(PersonaDTO personaDTO, long id);
+    void actualizarPersona(PersonaDTO personaDTO, Long id);
 
 
 }

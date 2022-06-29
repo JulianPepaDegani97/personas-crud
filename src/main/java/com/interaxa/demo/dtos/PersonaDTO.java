@@ -3,15 +3,15 @@ package com.interaxa.demo.dtos;
 import com.interaxa.demo.entities.Persona;
 
 public class PersonaDTO {
-    private long id;
+    private Long id;
     private String nombre;
     private String apellido;
-    private long dni;
-    private boolean empleado = false;
+    private Long dni;
+    private boolean empleado;
 
     public PersonaDTO() {}
 
-    public PersonaDTO(String nombre, String apellido, long dni, boolean empleado) {
+    public PersonaDTO(String nombre, String apellido, Long dni, boolean empleado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
@@ -26,7 +26,7 @@ public class PersonaDTO {
         this.empleado = persona.isEmpleado();
     }
 
-    public long getId() {return id;}
+    public Long getId() {return id;}
 
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
@@ -34,8 +34,8 @@ public class PersonaDTO {
     public String getApellido() {return apellido;}
     public void setApellido(String apellido) {this.apellido = apellido;}
 
-    public long getDni() {return dni;}
-    public void setDni(long dni) {this.dni = dni;}
+    public Long getDni() {return dni;}
+    public void setDni(Long dni) {this.dni = dni;}
 
     public boolean isEmpleado() {return empleado;}
     public void setEmpleado(boolean empleado) {this.empleado = empleado;}
