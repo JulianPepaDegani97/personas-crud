@@ -16,4 +16,6 @@ public interface PersonaService {
     void eliminarPersona(long id);
 
     void actualizarPersona(PersonaDTO personaDTO, long id);
+
+
 }

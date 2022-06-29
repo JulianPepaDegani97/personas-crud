@@ -7,7 +7,7 @@ public class PersonaDTO {
     private String nombre;
     private String apellido;
     private long dni;
-    private boolean empleado;
+    private boolean empleado = false;
 
     public PersonaDTO() {}
 
