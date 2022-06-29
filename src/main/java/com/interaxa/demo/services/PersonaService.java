@@ -1,5 +1,6 @@
 package com.interaxa.demo.services;
 
+import com.interaxa.demo.dtos.PersonaDTO;
 import com.interaxa.demo.entities.Persona;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public interface PersonaService {
 
     Persona traerPersonaPorId(long id);
 
-    void crearPersona(Persona persona);
+    void crearPersona(PersonaDTO personaDTO);
 
     void eliminarPersona(long id);
 
-    void activePersona(Persona persona);
+    void actualizarPersona(PersonaDTO personaDTO, long id);
 }
